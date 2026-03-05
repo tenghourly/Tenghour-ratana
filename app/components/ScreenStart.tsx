@@ -45,7 +45,7 @@ const ScreenStart = () => {
           1000,
         ]}
         wrapper="span"
-        speed={20}
+        speed={18}
         style={{
           fontSize: "2em",
           display: "inline-block",
