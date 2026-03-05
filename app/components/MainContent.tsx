@@ -391,25 +391,21 @@ const WeddingScreen = ({ name }: WeddingScreenProps) => {
 
             {/* ── Slide 4 — Journey ── */}
             <GoldSlide bg="/slide_4.jpg">
-              <div className="pt-10 px-10 h-full overflow-hidden">
+              <div className="pt-10 px-10 h-full flex flex-col justify-center">
                 <h1 ref={slide4Ref} className={`text-xl md:text-4xl font-ovo fadeInMove ${isSlide4InView ? "active" : ""}`}>
                   A journey in love
                 </h1>
-                {[
-                  [config.timeline_1, config.timeline_1_content],
-                  [config.timeline_2, config.timeline_2_content],
-                  [config.timeline_3, config.timeline_3_content],
-                ].map(([title, content], i) => (
-                  <div key={i}>
-                    <h3 ref={slide4Ref} className={`uppercase font-legan text-base mt-5 mb-1 fadeInMoveSlow ${isSlide4InView ? "active" : ""}`}>
-                      {title}
-                    </h3>
-                    <p ref={slide4Ref} className={`text-xs font-legan text-white/70 fadeInLeftSlow ${isSlide4InView ? "active" : ""}`}>
-                      {content}
-                    </p>
-                  </div>
-                ))}
-                <div ref={slide4Ref} className={`relative flex items-center mt-5 fadeInLeft ${isSlide4InView ? "active" : ""}`}>
+                <div ref={slide4Ref} className={`mt-6 fadeInMoveSlow ${isSlide4InView ? "active" : ""}`}>
+                  <p className="font-legan text-xs tracking-[3px] text-white/50 uppercase mb-2">The Groom</p>
+                  <h2 className="font-ovo text-lg text-white">{config.groom}</h2>
+                  <p className="text-xs font-legan text-white/70 mt-2">{config.groomBio}</p>
+                </div>
+                <div ref={slide4Ref} className={`mt-6 fadeInMoveSlow ${isSlide4InView ? "active" : ""}`}>
+                  <p className="font-legan text-xs tracking-[3px] text-white/50 uppercase mb-2">The Bride</p>
+                  <h2 className="font-ovo text-lg text-white">{config.bride}</h2>
+                  <p className="text-xs font-legan text-white/70 mt-2">{config.brideBio}</p>
+                </div>
+                <div ref={slide4Ref} className={`relative flex items-center mt-8 fadeInLeft ${isSlide4InView ? "active" : ""}`}>
                   <hr className="w-[100px] mx-2 border-t border-[#D4AF37]/40" />
                   <span className="px-2 font-thesignature text-3xl text-white/80">{config.coupleNames}</span>
                 </div>
