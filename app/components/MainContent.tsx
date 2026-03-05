@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { IoIosArrowUp } from "react-icons/io";
-import { FaInstagram } from "react-icons/fa";
+import { FaMapMarkerAlt } from "react-icons/fa";
 import Link from "next/link";
 import { useInView } from "react-intersection-observer";
 import CountdownTimer from "./Countdown";
@@ -10,571 +10,416 @@ import Form from "./Form";
 import WishesList from "./WishesList";
 import { config } from "@/lib/config";
 
-type WeddingScreenProps = {
-  name?: string;
-};
+type Props = { name?: string };
 
-const WeddingScreen = ({ name }: WeddingScreenProps) => {
+const makeRef = (threshold = 0.3) =>
+  useInView({ threshold, triggerOnce: true });
+
+const Divider = () => (
+  <div className="flex items-center gap-3 my-4 w-full">
+    <hr className="flex-1 border-white/20" />
+    <span className="text-white/40 text-xs">✦</span>
+    <hr className="flex-1 border-white/20" />
+  </div>
+);
+
+const WeddingScreen = ({ name }: Props) => {
   const [fadeClass, setFadeClass] = useState("opacity-0");
   const [isOpen, setIsOpen] = useState(false);
-  const audioRef = useRef(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
-  // Untuk fade-in pertama kali
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setFadeClass("opacity-100");
-    }, 500);
-
-    return () => clearTimeout(timer);
+    const t = setTimeout(() => setFadeClass("opacity-100"), 500);
+    return () => clearTimeout(t);
   }, []);
 
   const handleOpen = () => {
-    setIsOpen(!isOpen);
-    if (!isOpen && audioRef.current) {
-      // Play music when "Open" is clicked
-      (audioRef.current as HTMLAudioElement).play();
-    }
+    setIsOpen(true);
+    if (audioRef.current) audioRef.current.play().catch(() => {});
   };
 
-  const { ref: mainRef, inView: isMainInView } = useInView({
-    threshold: 0.5,
-  });
+  const { ref: mainRef,   inView: isMainInView }   = makeRef(0.5);
+  const { ref: main2Ref,  inView: isMain2InView }  = makeRef(0.4);
+  const { ref: s1Ref,     inView: s1 }             = makeRef();
+  const { ref: s2Ref,     inView: s2 }             = makeRef();
+  const { ref: s3Ref,     inView: s3 }             = makeRef();
+  const { ref: s4Ref,     inView: s4 }             = makeRef();
+  const { ref: s5Ref,     inView: s5 }             = makeRef();
+  const { ref: s6Ref,     inView: s6 }             = makeRef();
+  const { ref: s7Ref,     inView: s7 }             = makeRef();
+  const { ref: s8Ref,     inView: s8 }             = makeRef();
+  const { ref: s9Ref,     inView: s9 }             = makeRef();
+  const { ref: s10Ref,    inView: s10 }            = makeRef();
+  const { ref: s11Ref,    inView: s11 }            = makeRef();
+  const { ref: endRef,    inView: isEndInView }    = makeRef();
 
-  const { ref: main2Ref, inView: isMain2InView } = useInView({
-    threshold: 0.5,
-  });
-
-  const { ref: slide1Ref, inView: isSlide1InView } = useInView({
-    threshold: 0.5,
-  });
-
-  const { ref: slide2Ref, inView: isSlide2InView } = useInView({
-    threshold: 0.5,
-  });
-
-  const { ref: slide3Ref, inView: isSlide3InView } = useInView({
-    threshold: 0.5,
-  });
-
-  const { ref: slide4Ref, inView: isSlide4InView } = useInView({
-    threshold: 0.5,
-  });
-  const { ref: slide5Ref, inView: isSlide5InView } = useInView({
-    threshold: 0.5,
-  });
-  const { ref: slide6Ref, inView: isSlide6InView } = useInView({
-    threshold: 0.5,
-  });
-  const { ref: slide7Ref, inView: isSlide7InView } = useInView({
-    threshold: 0.5,
-  });
-  const { ref: slide8Ref, inView: isSlide8InView } = useInView({
-    threshold: 0.5,
-  });
-  const { ref: slide9Ref, inView: isSlide9InView } = useInView({
-    threshold: 0.5,
-  });
-  const { ref: slide10Ref, inView: isSlide10InView } = useInView({
-    threshold: 0.5,
-  });
-  const { ref: endRef, inView: isEndInView } = useInView({
-    threshold: 0.5,
-  });
-
-  useEffect(() => {
-    const video = document.querySelector("iframe");
-    if (video) {
-      if (isSlide8InView) {
-        video.src += "&autoplay=1"; // Mulai video
-      } else {
-        video.src = video.src.replace("&autoplay=1", ""); // Hentikan video
-      }
-    }
-  }, [isSlide8InView]);
+  const MAPS_LINK = config.weddingReception.googleMapsLink;
+  // QR code using Google Charts API (no install needed)
+  const QR_URL = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(MAPS_LINK)}&bgcolor=0a0a0a&color=ffffff&qzone=1`;
 
   return (
-    <div
-      className={`h-screen w-screen flex flex-col md:flex-row ${fadeClass} transition-opacity duration-1000`}
-    >
-      {/* Gambar sisi kiri Wide Untuk Komputer */}
+    <div className={`h-screen w-screen flex flex-col md:flex-row ${fadeClass} transition-opacity duration-1000`}>
+
+      {/* ── LEFT SIDE PHOTO (desktop) ── */}
       <div
-        className="md:flex justify-center hidden items-end pb-12 w-2/3 h-1/2 md:h-full"
-        style={{
-          backgroundImage: `url(/foto_1_samping.jpg)`, //refer to base 1st photo
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
+        className="md:flex hidden justify-center items-end pb-12 w-2/3 h-full"
+        style={{ backgroundImage: `url(/foto_1_samping.jpg)`, backgroundSize: "cover", backgroundPosition: "center" }}
       >
-        <div
-          className={`bottom-10 left-20 font-ovo text-lg text-white tracking-[5px] uppercase`}
-        >
-          {config.coupleNames}
-        </div>
+        <p className="font-ovo text-lg text-white tracking-[6px] uppercase">{config.coupleNames}</p>
       </div>
 
-      {/* Konten teks sisi kanan bisa scroll untuk pc */}
-      <div className=" md:w-1/3 h-full overflow-y-scroll snap-y snap-mandatory scroll-smooth">
-        <div
-          id="backgroundWedding"
-          className=" snap-start  w-full h-screen flex items-center justify-center "
-        >
-          <div className="text-center p-5 flex flex-col h-full justify-between py-20">
-            <div className="gap-y-2 md:gap-y-4 flex flex-col">
-              <h5
-                className={`text-sm font-legan text-white uppercase tracking-wide fadeMain2 ${isMain2InView ? "active" : ""
-                  } `}
+      {/* ── RIGHT SCROLL PANEL ── */}
+      <div className="md:w-1/3 w-full h-full overflow-y-scroll snap-y snap-mandatory scroll-smooth">
+
+        {/* ══════════════════════════════
+            COVER
+        ══════════════════════════════ */}
+        <div id="backgroundWedding" className="snap-start w-full h-screen flex items-center justify-center">
+          <div className="text-center px-6 flex flex-col h-full justify-between py-20">
+            <div className="flex flex-col gap-y-3">
+              <p
                 ref={main2Ref}
+                className={`font-battambang text-xs text-white/70 tracking-wide fadeMain2 ${isMain2InView ? "active" : ""}`}
               >
+                សូមគោរពអញ្ជើញ
+              </p>
+              <p className={`font-legan text-xs text-white uppercase tracking-widest fadeMain2 ${isMain2InView ? "active" : ""}`}>
                 The Wedding Of
-              </h5>
+              </p>
               <h1
-                className={`text-2xl md:text-3xl font-ovo t text-white uppercase fadeMain ${isMainInView ? "active" : ""
-                  } `}
                 ref={mainRef}
+                className={`text-2xl md:text-3xl font-ovo text-white uppercase fadeMain ${isMainInView ? "active" : ""}`}
               >
                 {config.coupleNames}
               </h1>
-              <h5
-                className={`text-sm  font-legan text-white uppercase tracking-wide  fadeMain2 ${isMain2InView ? "active" : ""
-                  } `}
-                ref={main2Ref}
-              >
+              <p className={`font-battambang text-base text-white/80 fadeMain2 ${isMain2InView ? "active" : ""}`}>
+                {config.coupleNamesKhmer}
+              </p>
+              <p className={`font-legan text-xs text-white/70 uppercase tracking-wide fadeMain2 ${isMain2InView ? "active" : ""}`}>
                 {new Date(config.eventDate).toLocaleDateString("en-US", {
-                  weekday: "long",
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
+                  weekday: "long", year: "numeric", month: "long", day: "numeric",
                 })}
-              </h5>
+              </p>
             </div>
             <div>
-              <p className="mt-5 text-lg uppercase font-xs tracking-widest text-white">
+              <p className="font-battambang text-sm text-white/80 mb-1">
+                {name ? `ជូនចំពោះ ${name}` : ""}
+              </p>
+              <p className="font-legan text-xs uppercase tracking-widest text-white mb-4">
                 {name ? `Dear ${name},` : "Welcome"}
               </p>
               {!isOpen ? (
                 <button
-                  className="animate-bounce  mt-5 px-5 py-1 uppercase text-xs border border-white hover:text-white hover:bg-transparent rounded-full bg-white text-black transition"
+                  className="animate-bounce px-7 py-2 uppercase text-xs border border-white rounded-full bg-white text-black hover:bg-transparent hover:text-white transition"
                   onClick={handleOpen}
                 >
                   Open Invitation
                 </button>
               ) : (
-                <IoIosArrowUp
-                  stroke="4"
-                  className="mx-auto mt-20 animate-upDown text-white"
-                />
+                <IoIosArrowUp className="mx-auto mt-16 animate-bounce text-white text-2xl" />
               )}
             </div>
           </div>
         </div>
+
         {isOpen && (
           <>
-            {/* Slide 1 */}
+            {/* ══════════════════════════════
+                SLIDE 1 — Khmer Proverb / Quote
+            ══════════════════════════════ */}
             <div
-              className={`text-white h-screen flex pt-12 p-5 px-12 snap-start `}
-              style={{
-                backgroundImage: `url(/slide_1.jpg)`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
+              className="snap-start text-white h-screen flex flex-col justify-center px-10 py-16"
+              style={{ backgroundImage: `url(/slide_1.jpg)`, backgroundSize: "cover", backgroundPosition: "center" }}
             >
-              <div
-                ref={slide1Ref}
-                className={` ${isSlide1InView ? "active" : ""}  fadeInMove`}
-              >
-                <h1 className="text-xl md:text-2xl font-ovo tracking-wide text-white uppercase">
-                  {config.bibleVerse}
+              <div ref={s1Ref} className={`fadeInMove ${s1 ? "active" : ""}`}>
+                <p className="font-legan text-xs tracking-widest uppercase text-white/50 mb-4">— សុភាសិតខ្មែរ · Khmer Proverb —</p>
+                <h1 className="font-battambang text-2xl text-white leading-relaxed mb-3">
+                  {config.bibleVerseKhmer}
                 </h1>
-                <p className="text-sm mt-5 font-legan">
-                  {config.bibleVerseContent}
+                <Divider />
+                <p className="font-ovo text-base text-white/90 italic leading-relaxed">
+                  "{config.bibleVerseContent}"
                 </p>
-                <p className="text-6xl mt-5 font-wonder">{config.coupleNames}</p>
+                <p className="font-battambang text-sm text-white/60 mt-3 leading-relaxed">
+                  {config.bibleVerseContentKhmer}
+                </p>
+                <p className="font-wonder text-4xl text-white/80 mt-6">{config.coupleNames}</p>
               </div>
             </div>
-            {/* Slide 2 */}
+
+            {/* ══════════════════════════════
+                SLIDE 2 — Groom
+            ══════════════════════════════ */}
             <div
-              className={`text-white h-screen flex items-end pb-16 px-12 snap-start `}
-              style={{
-                backgroundImage: `url(/slide_2.jpg)`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
+              className="snap-start text-white h-screen flex items-end pb-14 px-10"
+              style={{ backgroundImage: `url(/slide_2.jpg)`, backgroundSize: "cover", backgroundPosition: "center" }}
             >
-              {/* Display the content when the button is clicked */}
-              <div
-                ref={slide2Ref}
-                className={`fadeInMove ${isSlide2InView ? "active" : ""}  `}
-              >
-                <p className="font-legan text-sm my-2">The Groom</p>
-                <h1 className="text-xl md:text-3xl text-white  font-ovo">
-                  {config.groom}
-                </h1>
-                <h3 className="font-thesignature text-2xl">About {config.groomNickName},</h3>
-                <p className="text-sm mt-5 font-legan text-[#CCCCCC]">
-                  {config.groomBio}
-                </p>
-                <Link
-                  href={`https://www.instagram.com/${config.groomInstagram}`}
-                  target="_blank"
-                  className="cursor-pointer hover:bg-black text-sm rounded-full flex items-center gap-x-2 text-center font-legan mt-5 bg-[#4E4E4E] w-fit px-4 py-2 text-[#CCCCCC]"
-                >
-                  <FaInstagram /> {config.groomInstagram}
-                </Link>
-              </div>
-            </div>
-            {/* Slide 3 */}
-            <div
-              className="snap-start  text-white h-screen flex items-end pb-16 px-12 "
-              style={{
-                backgroundImage: `url(/slide_3.jpg)`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            >
-              <div
-                ref={slide3Ref}
-                className={`fadeInMove ${isSlide3InView ? "active" : ""}  `}
-              >
-                <p className="font-legan text-sm my-2">The Bride</p>
-                <h1 className="text-xl md:text-3xl text-white  font-ovo">
-                  {config.bride}
-                </h1>
-                <h3 className="font-thesignature text-2xl">About {config.brideNickName},</h3>
-                <p className="text-sm mt-5 font-legan text-[#CCCCCC]">
-                  {config.brideBio}
-                </p>
-                <Link
-                  href={`https://www.instagram.com/${config.brideInstagram}`}
-                  target="_blank"
-                  className="cursor-pointer hover:bg-black text-sm rounded-full flex items-center gap-x-2 text-center font-legan mt-5 bg-[#4E4E4E] w-fit px-4 py-2 text-[#CCCCCC]"
-                >
-                  <FaInstagram /> {config.brideInstagram}
-                </Link>
-              </div>
-            </div>
-            {/* Slide 4 */}
-            <div
-              className="snap-start  text-white h-screen pt-8 flex px-12 "
-              style={{
-                backgroundImage: `url(/slide_4.jpg)`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            >
-              <div>
-                <h1
-                  ref={slide4Ref}
-                  className={`text-xl md:text-5xl  text-white font-ovo fadeInMove ${isSlide4InView ? " active" : ""
-                    }`}
-                >
-                  A journey in love
-                </h1>
-                <h3
-                  ref={slide4Ref}
-                  className={`uppercase font-legan text-xl mt-5 mb-2 fadeInMoveSlow ${isSlide4InView ? " active" : ""
-                    }`}
-                >
-                  {config.timeline_1}
-                </h3>
-                <p
-                  ref={slide4Ref}
-                  className={`text-xs font-legan text-white fadeInLeftSlow ${isSlide4InView ? "active" : ""
-                    }`}
-                >
-                  {config.timeline_1_content}
-                </p>
-                <h3
-                  ref={slide4Ref}
-                  className={`uppercase font-legan text-xl mt-5 mb-2 fadeInMoveSlow ${isSlide4InView ? " active" : ""
-                    }`}
-                >
-                  {config.timeline_2}
-                </h3>
-                <p
-                  ref={slide4Ref}
-                  className={`text-xs font-legan text-white fadeInLeftSlow ${isSlide4InView ? " active" : ""
-                    }`}
-                >
-                  {config.timeline_2_content}
-                </p>
-                <h3
-                  ref={slide4Ref}
-                  className={`uppercase font-legan text-xl mt-5 mb-2 fadeInMoveSlow ${isSlide4InView ? " active" : ""
-                    }`}
-                >
-                  {config.timeline_3}
-                </h3>
-                <p
-                  ref={slide4Ref}
-                  className={`text-xs font-legan text-white fadeInLeftSlow ${isSlide4InView ? " active" : ""
-                    }`}
-                >
-                  {config.timeline_3_content}
-                </p>
-                <div
-                  ref={slide4Ref}
-                  className={`relative flex items-center mt-5 fadeInLeft ${isSlide4InView ? " active" : ""
-                    }`}
-                >
-                  <hr className="w-[120px] mx-2 border-t border-gray-300" />
-                  <span className="px-2 font-thesignature text-3xl">
-                    {config.coupleNames}
-                  </span>
+              <div ref={s2Ref} className={`fadeInMove ${s2 ? "active" : ""} w-full`}>
+                <p className="font-legan text-xs tracking-widest uppercase text-white/50 mb-2">The Groom · កូនប្រុស</p>
+                <h1 className="font-ovo text-3xl text-white">{config.groom}</h1>
+                <p className="font-battambang text-lg text-white/70">{config.groomKhmer}</p>
+                <h3 className="font-thesignature text-3xl mt-1 text-white/90">About {config.groomNickName},</h3>
+                <Divider />
+                <p className="font-legan text-xs text-white/80 leading-relaxed">{config.groomBio}</p>
+                <p className="font-battambang text-xs text-white/60 mt-2 leading-relaxed">{config.groomBioKhmer}</p>
+                <div className="mt-4 flex flex-col gap-y-1">
+                  <p className="font-legan text-xs text-white/50">
+                    Father · ឪពុក: <span className="text-white/80">{config.groomFather}</span>
+                  </p>
+                  <p className="font-legan text-xs text-white/50">
+                    Mother · ម្តាយ: <span className="text-white/80">{config.groomMother}</span>
+                  </p>
                 </div>
               </div>
             </div>
-            {/* Slide 5 */}
+
+            {/* ══════════════════════════════
+                SLIDE 3 — Bride
+            ══════════════════════════════ */}
             <div
-              className="snap-start  text-white h-screen flex flex-col items-center px-12 "
-              style={{
-                backgroundImage: `url(/slide_5.jpg)`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
+              className="snap-start text-white h-screen flex items-end pb-14 px-10"
+              style={{ backgroundImage: `url(/slide_3.jpg)`, backgroundSize: "cover", backgroundPosition: "center" }}
             >
-              <div
-                ref={slide5Ref}
-                className={` ${isSlide5InView ? "active" : ""
-                  }  fadeInMove flex items-center flex-col pt-32 `}
-              >
-                <h3 className="uppercase font-legan text-xs tracking-wide mt-5 mb-2">
-                  save our date
-                </h3>
-                <h1 className="text-2xl w-[200px] text-center text-white  font-ovo uppercase">
+              <div ref={s3Ref} className={`fadeInMove ${s3 ? "active" : ""} w-full`}>
+                <p className="font-legan text-xs tracking-widest uppercase text-white/50 mb-2">The Bride · កូនស្រី</p>
+                <h1 className="font-ovo text-3xl text-white">{config.bride}</h1>
+                <p className="font-battambang text-lg text-white/70">{config.brideKhmer}</p>
+                <h3 className="font-thesignature text-3xl mt-1 text-white/90">About {config.brideNickName},</h3>
+                <Divider />
+                <p className="font-legan text-xs text-white/80 leading-relaxed">{config.brideBio}</p>
+                <p className="font-battambang text-xs text-white/60 mt-2 leading-relaxed">{config.brideBioKhmer}</p>
+                <div className="mt-4 flex flex-col gap-y-1">
+                  <p className="font-legan text-xs text-white/50">
+                    Mother · ម្តាយ: <span className="text-white/80">{config.brideMother}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* ══════════════════════════════
+                SLIDE 4 — Photo (cinematic)
+            ══════════════════════════════ */}
+            <div
+              className="snap-start text-white h-screen flex items-center justify-center"
+              style={{ backgroundImage: `url(/slide_4.jpg)`, backgroundSize: "cover", backgroundPosition: "center" }}
+            >
+              <div ref={s4Ref} className={`fadeInScale ${s4 ? "active" : ""} text-center px-10`}>
+                <p className="font-battambang text-sm text-white/60 mb-2">ជីវិតដ៏ស្រស់ស្អាត</p>
+                <p className="font-thesignature text-5xl text-white/90">{config.coupleNames}</p>
+                <p className="font-legan text-xs tracking-widest uppercase text-white/50 mt-3">
                   {new Date(config.eventDate).toLocaleDateString("en-US", {
-                    weekday: "long",
-                  })} <br />  {new Date(config.eventDate).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
+                    weekday: "long", year: "numeric", month: "long", day: "numeric",
                   })}
+                </p>
+              </div>
+            </div>
+
+            {/* ══════════════════════════════
+                SLIDE 5 — Save the Date
+            ══════════════════════════════ */}
+            <div
+              className="snap-start text-white h-screen flex flex-col items-center justify-center px-10"
+              style={{ backgroundImage: `url(/slide_5.jpg)`, backgroundSize: "cover", backgroundPosition: "center" }}
+            >
+              <div ref={s5Ref} className={`fadeInMove ${s5 ? "active" : ""} flex flex-col items-center w-full`}>
+                <p className="font-battambang text-xs text-white/60 mb-1 tracking-wide">រក្សាទុកកាលបរិច្ឆេទ</p>
+                <p className="font-legan text-xs uppercase tracking-widest text-white/60 mb-3">Save Our Date</p>
+                <h1 className="font-ovo text-2xl text-white uppercase text-center">
+                  {new Date(config.eventDate).toLocaleDateString("en-US", { weekday: "long" })}
+                  <br />
+                  {new Date(config.eventDate).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
                 </h1>
+                <Divider />
+
+                {/* Holy Matrimony */}
                 {config.holyMatrimony.enabled && (
-                  <div className="mt-5 mx-auto flex flex-col items-center">
-                    <h3 className="uppercase font-ovo text-sm text-center mt-5 mb-2">
-                      Holy Matrimony <br /> {config.holyMatrimony.time}
-                    </h3>
-                    <p className="text-sm text-center  font-legan text-white">
-                      {config.holyMatrimony.place} <br /> {config.holyMatrimony.place_details}
-                    </p>
-                    <Link
-                      href={config.holyMatrimony.googleMapsLink}
-                      target="_blank"
-                      className="cursor-pointer hover:text-white/20 text-sm rounded-full flex items-center gap-x-2 text-center font-legan mt-5 bg-[#808080] w-fit px-4 py-2 text-white"
-                    >
-                      Google Maps
-                    </Link>
+                  <div className="w-full flex flex-col items-center mb-5">
+                    <p className="font-battambang text-xs text-white/60 mb-1">ពិធីអាពាហ៍ពិពាហ៍ព្រឹក</p>
+                    <p className="font-ovo text-sm uppercase tracking-wide text-white">Holy Matrimony</p>
+                    <p className="font-legan text-xs text-white/70 mt-1">{config.holyMatrimony.timeKhmer} · {config.holyMatrimony.time}</p>
+                    <p className="font-battambang text-xs text-white/70 text-center mt-1">{config.holyMatrimony.place}</p>
+                    <p className="font-legan text-xs text-white/50 text-center">{config.holyMatrimony.place_details}</p>
                   </div>
                 )}
 
+                {/* Wedding Reception */}
                 {config.weddingReception.enabled && (
-                  <div className="mt-5 mx-auto flex  flex-col items-center">
-                    <h3 className="uppercase font-ovo text-sm text-center mt-5 mb-2">
-                      Wedding Reception <br /> {config.weddingReception.time}
-                    </h3>
-                    <p className="text-sm text-center  font-legan text-white">
-                      {config.weddingReception.place} <br /> {config.weddingReception.place_details}
-                    </p>
-                    <Link
-                      href={config.weddingReception.googleMapsLink}
-                      target="_blank"
-                      className="cursor-pointer hover:text-white/20 text-sm rounded-full flex items-center gap-x-2 text-center font-legan mt-5 bg-[#808080] w-fit px-4 py-2 text-white"
-                    >
-                      Google Maps
-                    </Link>
+                  <div className="w-full flex flex-col items-center">
+                    <p className="font-battambang text-xs text-white/60 mb-1">ពិធីទទួលភ្ញៀវវ</p>
+                    <p className="font-ovo text-sm uppercase tracking-wide text-white">Wedding Reception</p>
+                    <p className="font-legan text-xs text-white/70 mt-1">{config.weddingReception.timeKhmer} · {config.weddingReception.time}</p>
+                    <p className="font-battambang text-xs text-white/70 text-center mt-1">{config.weddingReception.place}</p>
+                    <p className="font-legan text-xs text-white/50 text-center">{config.weddingReception.place_details}</p>
                   </div>
                 )}
               </div>
             </div>
-            {/* Slide 6 */}
+
+            {/* ══════════════════════════════
+                SLIDE 6 — Venue + QR Code + Map Button
+            ══════════════════════════════ */}
             <div
-              className="snap-start  text-white h-screen flex flex-col items-center justify-end pb-16 px-12 "
-              style={{
-                backgroundImage: `url(/slide_6.jpg)`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
+              className="snap-start text-white h-screen flex flex-col justify-center px-10 py-12"
+              style={{ backgroundImage: `url(/slide_6.jpg)`, backgroundSize: "cover", backgroundPosition: "center" }}
             >
-              <div
-                ref={slide6Ref}
-                className={` ${isSlide6InView ? "active" : ""
-                  }  fadeInMove flex items-center flex-col`}
-              >
-                <h1 className="text-2xl text-center text-white  font-ovo">
-                  ALMOST TIME FOR OURCELEBRATION
+              <div ref={s6Ref} className={`fadeInMove ${s6 ? "active" : ""} flex flex-col items-center`}>
+                <p className="font-battambang text-xs text-white/60 mb-1">ទីតាំងពិធីការ</p>
+                <p className="font-legan text-xs uppercase tracking-widest text-white/60 mb-3">Venue Location</p>
+                <p className="font-battambang text-base text-white text-center">{config.weddingReception.place}</p>
+                <p className="font-legan text-xs text-white/60 text-center mt-1">{config.weddingReception.place_details}</p>
+
+                <Divider />
+
+                {/* QR Code */}
+                <p className="font-battambang text-xs text-white/50 mb-3">ស្កែន QR ដើម្បីទទួល Google Maps</p>
+                <div className="border border-white/20 rounded-xl p-2 bg-black/40">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={QR_URL}
+                    alt="Google Maps QR Code"
+                    width={140}
+                    height={140}
+                    className="rounded-lg"
+                  />
+                </div>
+                <p className="font-legan text-xs text-white/40 mt-2">Scan to open Google Maps</p>
+
+                <Divider />
+
+                {/* Map buttons */}
+                <div className="flex gap-3 flex-wrap justify-center">
+                  <Link
+                    href={MAPS_LINK}
+                    target="_blank"
+                    className="flex items-center gap-x-2 font-legan text-xs bg-white/10 hover:bg-white/20 border border-white/20 rounded-full px-5 py-2 text-white transition"
+                  >
+                    <FaMapMarkerAlt /> Open in Google Maps
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* ══════════════════════════════
+                SLIDE 7 — Photo cinematic
+            ══════════════════════════════ */}
+            <div
+              className="snap-start text-white h-screen flex items-end pb-14 px-10"
+              style={{ backgroundImage: `url(/slide_7.jpg)`, backgroundSize: "cover", backgroundPosition: "center" }}
+            >
+              <div ref={s7Ref} className={`fadeInLeft ${s7 ? "active" : ""}`}>
+                <p className="font-battambang text-sm text-white/60">ស្នេហ៍ពិត</p>
+                <p className="font-thesignature text-5xl text-white/90 mt-1">{config.coupleNames}</p>
+                <p className="font-legan text-xs tracking-widest uppercase text-white/50 mt-2">
+                  Forever & Always
+                </p>
+              </div>
+            </div>
+
+            {/* ══════════════════════════════
+                SLIDE 8 — Countdown
+            ══════════════════════════════ */}
+            <div
+              className="snap-start text-white h-screen flex flex-col items-center justify-end pb-20 px-10"
+              style={{ backgroundImage: `url(/slide_8.jpg)`, backgroundSize: "cover", backgroundPosition: "center" }}
+            >
+              <div ref={s8Ref} className={`fadeInMove ${s8 ? "active" : ""} flex flex-col items-center`}>
+                <p className="font-battambang text-xs text-white/60 mb-1">ពេលវេលារាប់ថ្ងៃ</p>
+                <h1 className="font-ovo text-xl text-white uppercase text-center">
+                  Almost Time For Our Celebration
                 </h1>
-                {/* Countdown Timer */}
+                <p className="font-battambang text-xs text-white/60 mt-1">ពេលវេលាកំពុងរាប់...</p>
                 <CountdownTimer />
               </div>
             </div>
-            {/* Slide 7 */}
-            {config.livestreaming.enabled && (
-              <div
-                className="snap-start  text-white h-screen flex flex-col justify-between pt-16 pb-32 px-12 "
-                style={{
-                  backgroundImage: `url(/foto_1_samping.jpg)`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              >
-                <h1
-                  ref={slide7Ref}
-                  className={`text-2xl text-white  font-ovo fadeInMoveSlow ${isSlide7InView ? "active" : ""
-                    }`}
-                >
-                  JOIN OUR EXCLUSIVE LIVE STREAMING EVENT
-                </h1>
 
-                <div
-                  className={`mt-5 mx-auto flex flex-col fadeInMove ${isSlide7InView ? "active" : ""
-                    }`}
-                  ref={slide7Ref}
-                >
-                  <h3 className="uppercase font-ovo text-sm mt-5 mb-2">
-                    {new Date(config.eventDate).toLocaleDateString("en-US", {
-                      weekday: "long",
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                    <br /> {config.livestreaming.time}
-                  </h3>
-                  <p className="text-sm font-legan text-white">
-                    {config.livestreaming.detail}
-                  </p>
-                  <Link
-                    href={config.livestreaming.link}
-                    target="_blank"
-                    className="cursor-pointer hover:text-white/20 text-sm rounded-full flex items-center gap-x-2 text-center font-legan mt-5 bg-[#3B3B3B] w-fit px-6 py-2 text-white"
-                  >
-                    Join Live Streaming
-                  </Link>
-                </div>
-              </div>)}
-            {/* SLIDE 8 */}
+            {/* ══════════════════════════════
+                SLIDE 9 — Prewedding (disabled until ready)
+            ══════════════════════════════ */}
             {config.prewedding.enabled && (
               <div
-                className="snap-start text-white h-screen flex flex-col justify-center pt-16 pb-16 px-8 "
-                style={{
-                  backgroundImage: `url(/slide_8.jpg)`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
+                className="snap-start text-white h-screen flex flex-col justify-center px-8 py-16"
+                style={{ backgroundImage: `url(/slide_9.jpg)`, backgroundSize: "cover", backgroundPosition: "center" }}
               >
-                <div
-                  ref={slide8Ref}
-                  className={`${isSlide8InView ? "active" : ""} fadeInMove `}
-                >
-                  <h1 className="text-3xl text-white  font-ovo text-center uppercase">
-                    Unveiling Our Prewedding Story
-                  </h1>
-                  <div
-                    className="mt-10 mx-auto w-full max-w-2xl relative"
-                    style={{ paddingBottom: "56.25%", height: 0 }}
-                  >
+                <div ref={s9Ref} className={`fadeInMove ${s9 ? "active" : ""}`}>
+                  <p className="font-battambang text-xs text-white/60 mb-2 text-center">វីដេអូមុនពេលរៀបការ</p>
+                  <h1 className="font-ovo text-2xl text-white uppercase text-center mb-6">Our Prewedding Story</h1>
+                  <div className="w-full relative rounded-lg overflow-hidden" style={{ paddingBottom: "56.25%", height: 0 }}>
                     <iframe
                       className="absolute top-0 left-0 w-full h-full"
-                      src={`https://www.youtube.com/embed/${config.prewedding.link}?autoplay=1&mute=1&loop=1`}
+                      src={`https://www.youtube.com/embed/${config.prewedding.link}?mute=1`}
                       frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      referrerPolicy="strict-origin-when-cross-origin"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
-                    ></iframe>
+                    />
                   </div>
-
-                  <div className="-mt-12 w-72 transform skew-x-6 drop-shadow">
-                    <p className="text-3xl font-thesignature text-white/80 ">
-                      {config.prewedding.detail}
-                    </p>
-                  </div>
+                  <p className="font-battambang text-sm text-white/70 text-center mt-4">{config.prewedding.detail}</p>
                 </div>
-              </div>)}
-
-            {/* SLIDE 9 */}
-            {config.rsvp.enabled && (
-            <div
-              className="snap-start text-white h-screen flex flex-col justify-center pt-16 pb-16 px-8"
-              style={{
-                backgroundImage: `url(/slide_9.jpg)`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            >
-              <div
-                ref={slide9Ref}
-                className={`${isSlide9InView ? "active" : ""} fadeInMove`}
-              >
-                <h1 className="text-3xl text-white font-ovo text-center uppercase">
-                  RSVP AND WISHES
-                </h1>
-                <p className="text-sm font-legan text-white/80 text-center">
-                {config.rsvp.detail}
-                </p>
-
-                <Form />
               </div>
-            </div>
             )}
 
-            {/* SLIDE 10 */}
-            <div
-              className="snap-start text-white h-screen flex flex-col justify-center pt-16 pb-16 px-8"
-              style={{
-                backgroundImage: `url(/slide_9.jpg)`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            >
+            {/* ══════════════════════════════
+                SLIDE 10 — RSVP Form
+            ══════════════════════════════ */}
+            {config.rsvp.enabled && (
               <div
-                ref={slide10Ref}
-                className={`${isSlide10InView ? "active" : ""} fadeInMove`}
+                className="snap-start text-white h-screen flex flex-col justify-center px-8 py-10"
+                style={{ backgroundImage: `url(/foto_1_samping.jpg)`, backgroundSize: "cover", backgroundPosition: "center" }}
               >
-                <h1 className="text-3xl text-white font-ovo text-center uppercase">
-                  Wishes
-                </h1>
+                <div ref={s10Ref} className={`fadeInMove ${s10 ? "active" : ""}`}>
+                  <p className="font-battambang text-xs text-white/60 mb-1 text-center">ការឆ្លើយតបអញ្ជើញ</p>
+                  <h1 className="font-ovo text-2xl text-white uppercase text-center">RSVP & Wishes</h1>
+                  <p className="font-battambang text-xs text-white/60 text-center mt-2 leading-relaxed whitespace-pre-line">
+                    {config.rsvp.detail}
+                  </p>
+                  <Form />
+                </div>
+              </div>
+            )}
+
+            {/* ══════════════════════════════
+                SLIDE 11 — Wishes List
+            ══════════════════════════════ */}
+            <div
+              className="snap-start text-white h-screen flex flex-col justify-center px-8 py-10"
+              style={{ backgroundImage: `url(/slide_9.jpg)`, backgroundSize: "cover", backgroundPosition: "center" }}
+            >
+              <div ref={s11Ref} className={`fadeInMove ${s11 ? "active" : ""}`}>
+                <p className="font-battambang text-xs text-white/60 mb-1 text-center">ពាក្យជូនពរ</p>
+                <h1 className="font-ovo text-2xl text-white uppercase text-center mb-4">Wishes</h1>
                 <WishesList />
               </div>
             </div>
 
-            {/* SLIDE AKHIR */}
+            {/* ══════════════════════════════
+                FINAL SLIDE — Thank You
+            ══════════════════════════════ */}
             <div
-              className="snap-start text-white h-screen flex flex-col justify-end pt-16 pb-16 px-12 "
-              style={{
-                backgroundImage: `url(/slide_7.jpg)`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
+              className="snap-start text-white h-screen flex flex-col justify-end pb-16 px-10"
+              style={{ backgroundImage: `url(/foto_1_samping.jpg)`, backgroundSize: "cover", backgroundPosition: "center" }}
             >
-              <div
-                ref={endRef}
-                className={` ${isEndInView ? "active" : ""} fadeInMove `}
-              >
-                <h1 className="text-3xl text-white  font-ovo text-center uppercase">
-                  {config.thankyou}
-                </h1>
-
-                <div className="mt-5 mx-auto flex flex-col ">
-                  <p className="text-sm font-legan text-white text-center">
-                    {config.thankyouDetail}
-                  </p>
-                  <p className="text-sm rounded-full text-center font-ovo mt-5 px-6 py-2 text-white uppercase">
-                    {config.coupleNames}
-                  </p>
-                </div>
-              </div>
-
-              <footer className="flex flex-col items-center mt-8">
-                <p className="text-[0.5rem] uppercase text-center">
-                  Created By Peter Shaan
+              <div ref={endRef} className={`fadeInMove ${isEndInView ? "active" : ""}`}>
+                <p className="font-battambang text-sm text-white/70 text-center leading-relaxed mb-4">
+                  សូមអរគុណចំពោះការអញ្ជើញ និងការគាំទ្ររបស់លោកអ្នក។<br />
+                  វត្តមានរបស់អ្នកគឺជាអំណោយដ៏មានតម្លៃបំផុតសម្រាប់យើងទាំងពីរ។
                 </p>
-                <p className="text-xs">© All rights reserved by petershaan</p>
+                <Divider />
+                <h1 className="font-ovo text-xl text-white uppercase text-center">{config.thankyou}</h1>
+                <p className="font-legan text-xs text-white/60 text-center mt-3 leading-relaxed">
+                  Thank you for being part of our most special day.<br />Your presence means the world to us.
+                </p>
+                <p className="font-thesignature text-4xl text-white/80 text-center mt-4">{config.coupleNames}</p>
+                <p className="font-battambang text-sm text-white/60 text-center mt-1">{config.coupleNamesKhmer}</p>
+              </div>
+              <footer className="mt-8 text-center">
+                <p className="font-battambang text-xs text-white/30">ជូនពរដោយស្នេហ៍ · With Love</p>
               </footer>
             </div>
           </>
         )}
       </div>
-      {/* Audio Element */}
-      <audio ref={audioRef} src="/music/wedding_song.mp3" preload="auto" />
+
+      {/* Audio — user will replace the file */}
+      <audio ref={audioRef} src="/music/wedding_song.mp3" preload="auto" loop />
     </div>
   );
 };
