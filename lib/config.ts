@@ -20,6 +20,7 @@ export const config = {
   brideInstagram: "",
   brideBio: "A graceful and gentle soul whose smile lights up every room. Muniratana brings warmth, kindness, and beauty into the lives of everyone around her.",
   brideBioKhmer: "នារីដែលមានសិរីល្អ និងចិត្តកក់ក្តៅ នាំមកនូវក្តីស្រឡាញ់ ភាពសប្បុរស និងសំណព្វដល់អ្នកទាំងអស់គ្នា",
+  brideFather: "",
   brideMother: "លោកស្រី ធួក សៀម",
 
   // ── KHMER PROVERB / QUOTE ──
@@ -27,6 +28,34 @@ export const config = {
   bibleVerseKhmer: "\"ស្វាមីភរិយាដែលស្រឡាញ់គ្នា ធ្វើឱ្យផ្ទះក្លាយជាឋានសួគ៌\"",
   bibleVerseContent: "True love is not just a feeling — it is a promise kept every single day, through every storm and every joy.",
   bibleVerseContentKhmer: "ស្នេហាពិតប្រាកដ មិនមែនត្រឹមតែអារម្មណ៍នោះទេ — វាជាការសន្យា ដែលរក្សាទុករាល់ថ្ងៃ ក្នុងគ្រប់ស្ថានការណ៍",
+
+  // ── WEDDING DAY TIMELINE ──
+  timeline: {
+    day1: {
+      date: "Day 22 · April 2026",
+      dateKhmer: "ថ្ងៃទី ២២ មេសា ២០២៦",
+      events: [
+        { time: "2:00 PM – 3:00 PM", title: "ពិធីក្រុងពាលី" },
+        { time: "3:00 PM – 4:00 PM", title: "ពិធីសូត្រមន្ត" },
+        { time: "4:00 PM – 5:00 PM", title: "ពិធីជាវខាន់ស្លា" },
+      ],
+    },
+    day2: {
+      date: "Day 23 · April 2026",
+      dateKhmer: "ថ្ងៃទី ២៣ មេសា ២០២៦",
+      morning: [
+        { time: "6:30 AM – 7:00 AM", title: "រាប់ចំពិធីហែជំនូន" },
+        { time: "7:00 AM – 8:00 AM", title: "ពិធីហែជំនួន" },
+        { time: "8:00 AM – 9:00 AM", title: "ពិធីរាប់ជំនួន" },
+        { time: "9:00 AM – 9:30 AM", title: "ពិធីពាក់ចិញ្ចៀន" },
+        { time: "9:30 AM – 10:00 AM", title: "ពិធីកាត់សក់" },
+        { time: "10:00 AM – 11:00 AM", title: "ពិធីបង្វិលពពិល ចងដៃ បាច់ផ្កា" },
+      ],
+      evening: [
+        { time: "5:00 PM – 11:00 PM", title: "ពិសាអាហារពេលល្ងាច" },
+      ],
+    },
+  },
 
   // ── VENUE ──
   holyMatrimony: {
