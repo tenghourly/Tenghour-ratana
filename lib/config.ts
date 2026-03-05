@@ -1,51 +1,70 @@
 export const config = {
-    coupleNames: process.env.NEXT_PUBLIC_COUPLE_NAMES || "Ly Tenghour & Da Muniratana",
-    eventDate: process.env.NEXT_PUBLIC_EVENT_DATE || "THURSDAY, 23 APRIL 2026 ",
-    groom: process.env.NEXT_PUBLIC_GROOM_NAME || "Ly Tenghour",
-    groomNickName: process.env.NEXT_PUBLIC_GROOM_NICKNAME || "STEVE",
-    groomInstagram: process.env.NEXT_PUBLIC_GROOM_INSTAGRAM || "Default Instagram",
-    groomBio: process.env.NEXT_PUBLIC_GROOM_BIO || "The things that we dont try is 100% a failure",
-    bride: process.env.NEXT_PUBLIC_BRIDE_NAME || "Da Muniratana",
-    brideNickName: process.env.NEXT_PUBLIC_BRIDE_NICKNAME || "Vouch",
-    brideInstagram: process.env.NEXT_PUBLIC_BRIDE_INSTAGRAM || "Default Instagram",
-    brideBio: process.env.NEXT_PUBLIC_BRIDE_BIO || "Hope is the things that stronger than bullets ",
-    bibleVerse: process.env.NEXT_PUBLIC_BIBLE_VERSE || "Two are better than one, because they have a good return for their labor: If either of them falls down, one can help the other up.",
-    bibleVerseContent: process.env.NEXT_PUBLIC_BIBLE_VERSE_CONTENT || "Therefore a man shall leave his father and his mother and hold fast to his wife, and they shall become one flesh.",
-    timeline_1: process.env.NEXT_PUBLIC_YEAR_1 || "Default Timeline 1",
-    timeline_1_content: process.env.NEXT_PUBLIC_YEAR_1_CONTENT || "Default Timeline 1 Content",
-    timeline_2: process.env.NEXT_PUBLIC_YEAR_2 || "Default Timeline 2",
-    timeline_2_content: process.env.NEXT_PUBLIC_YEAR_2_CONTENT || "Default Timeline 2 Content",
-    timeline_3: process.env.NEXT_PUBLIC_YEAR_3 || "Default Timeline 3",
-    timeline_3_content: process.env.NEXT_PUBLIC_YEAR_3_CONTENT || "Default Timeline 3 Content",
-    holyMatrimony: {
-        enabled: process.env.NEXT_PUBLIC_HOLY_MATRIMONY === 'true',
-        time: process.env.NEXT_PUBLIC_HOLY_MATRIMONY_TIME || "00:00",
-        place: process.env.NEXT_PUBLIC_HOLY_MATRIMONY_PLACE || "Default Church",
-        place_details: process.env.NEXT_PUBLIC_HOLY_MATRIMONY_PLACE_DETAILS || "Default Street",
-        googleMapsLink: process.env.NEXT_PUBLIC_HOLY_MATRIMONY_GOOGLE_MAPS || "https://maps.app.goo.gl/vPmfWux29qYYfkJTA",
-    },
-    weddingReception: {
-        enabled: process.env.NEXT_PUBLIC_WEDDING_RECEPTION === 'true',
-        time: process.env.NEXT_PUBLIC_WEDDING_RECEPTION_TIME || "00:00",
-        place: process.env.NEXT_PUBLIC_WEDDING_RECEPTION_PLACE || "Default Venue",
-        place_details: process.env.NEXT_PUBLIC_WEDDING_RECEPTION_PLACE_DETAILS || "Default Street",
-        googleMapsLink: process.env.NEXT_PUBLIC_WEDDING_RECEPTION_GOOGLE_MAPS || "https://maps.app.goo.gl/fQGiC37iEx6fcuNq8",
-    },
-    livestreaming: {
-        enabled: process.env.NEXT_PUBLIC_LIVE_STREAMING === 'true',
-        time: process.env.NEXT_PUBLIC_LIVE_STREAMING_TIME || "00:00",
-        link: process.env.NEXT_PUBLIC_LIVE_STREAMING_LINK || "#",
-        detail: process.env.NEXT_PUBLIC_LIVE_STREAMING_DETAIL || "Default Livestreaming Detail",
-    },
-    prewedding: {
-        enabled: process.env.NEXT_PUBLIC_PREWEDDING === 'true',
-        link: process.env.NEXT_PUBLIC_PREWEDDING_CODE_LINK_EMBED || "#",
-        detail: process.env.NEXT_PUBLIC_PREWEDDING_DETAIL || "Default Prewedding Detail",
-    },
-    rsvp: {
-        enabled: process.env.NEXT_PUBLIC_RSVP === 'true',
-        detail: process.env.NEXT_PUBLIC_RSVP_DETAIL || "Default RSVP Detail",
-    },
-    thankyou: process.env.NEXT_PUBLIC_THANKYOU || "Default Thank You",
-    thankyouDetail: process.env.NEXT_PUBLIC_THANKYOU_DETAIL || "Default Thank You Detail",
+  coupleNames: "Ly Tenghour & Da Muniratana",
+  coupleNamesKhmer: "លី តែងហួរ & ដា មុនីរតនា",
+  eventDate: "2026-04-23T17:00:00",
+
+  // ── GROOM ──
+  groom: "Ly Tenghour",
+  groomKhmer: "លី តែងហួរ",
+  groomNickName: "Tenghour",
+  groomInstagram: "",
+  groomBio: "A calm and devoted man with a warm heart. Tenghour carries his family's love in everything he does — thoughtful, dependable, and full of quiet strength.",
+  groomBioKhmer: "បុរសស្ងប់ស្ងាត់ ដែលពោរពេញដោយចិត្តស្រឡាញ់គ្រួសារ មានភាពស្ងៀមស្ងាត់ និងទំនុកចិត្ត។",
+  groomFather: "លោក សុខចេន",
+  groomMother: "លោកស្រី អ៊ី ចាន់រ៉ា",
+
+  // ── BRIDE ──
+  bride: "Da Muniratana",
+  brideKhmer: "ដា មុនីរតនា",
+  brideNickName: "Muniratana",
+  brideInstagram: "",
+  brideBio: "A graceful and gentle soul whose smile lights up every room. Muniratana brings warmth, kindness, and beauty into the lives of everyone around her.",
+  brideBioKhmer: "នារីដែលមានសិរីល្អ និងចិត្តកក់ក្តៅ។ នាងដា នាំមកនូវក្តីស្រឡាញ់ ភាពសប្បុរស និងសំណព្វដល់អ្នកទាំងអស់គ្នា។",
+  brideMother: "លោកស្រី ថូត សៅម",
+
+  // ── KHMER PROVERB / QUOTE ──
+  bibleVerse: "ស្នេហាពិតប្រាកដ",
+  bibleVerseKhmer: "\"ស្វាមីភរិយាដែលស្រឡាញ់គ្នា ធ្វើឱ្យផ្ទះក្លាយជាឋានសួគ៌\"",
+  bibleVerseContent: "True love is not just a feeling — it is a promise kept every single day, through every storm and every joy.",
+  bibleVerseContentKhmer: "ស្នេហាពិតប្រាកដ មិនមែនត្រឹមតែអារម្មណ៍នោះទេ — វាជាការសន្យា ដែលរក្សាទុករាល់ថ្ងៃ ក្នុងគ្រប់ស្ថានការណ៍។",
+
+  // ── VENUE ──
+  holyMatrimony: {
+    enabled: true,
+    time: "05:00 AM",
+    timeKhmer: "ម៉ោង ០៥:០០ ព្រឹក",
+    place: "គេហដ្ឋានចៅស្រី",
+    place_details: "ផ្លូវ១១០ អង្កេសឆានរ ផ្សារភ្នំពេញ រដ្ឋភ្នំពេញ",
+    googleMapsLink: "https://maps.app.goo.gl/fyD92nmLct2sJY19A",
+  },
+
+  weddingReception: {
+    enabled: true,
+    time: "05:00 PM",
+    timeKhmer: "ម៉ោង ០៥:០០ ល្ងាច",
+    place: "គេហដ្ឋានចៅស្រី",
+    place_details: "ផ្លូវ១១០ អង្កេសឆានរ ផ្សារភ្នំពេញ រដ្ឋភ្នំពេញ",
+    googleMapsLink: "https://maps.app.goo.gl/fyD92nmLct2sJY19A",
+  },
+
+  livestreaming: {
+    enabled: false,
+    time: "",
+    detail: "",
+    link: "",
+  },
+
+  prewedding: {
+    enabled: false,
+    link: "",
+    detail: "រឿងស្នេហ៍របស់យើង ចាប់ផ្តើមពីថ្ងៃនោះ...",
+  },
+
+  rsvp: {
+    enabled: true,
+    detail: "សូមបញ្ជាក់ការអញ្ជើញរបស់លោកអ្នក មុនថ្ងៃទី ១ មេសា ២០២៦\nPlease confirm your attendance before April 1, 2026.",
+  },
+
+  thankyou: "អរគុណ · Thank You",
+  thankyouDetail: "សូមអរគុណចំពោះការអញ្ជើញ និងការគាំទ្ររបស់លោកអ្នក។ វត្តមានរបស់អ្នកគឺជាអំណោយដ៏មានតម្លៃបំផុតសម្រាប់យើងទាំងពីរ។\n\nThank you for being part of our most special day. Your presence means the world to us.",
 };
