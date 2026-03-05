@@ -1,6 +1,6 @@
 export const config = {
-    coupleNames: process.env.NEXT_PUBLIC_COUPLE_NAMES || "Default Names",
-    eventDate: process.env.NEXT_PUBLIC_EVENT_DATE || "2025-01-01T00:00:00",
+    coupleNames: process.env.NEXT_PUBLIC_COUPLE_NAMES || "Ly Tenghour & Da Muniratana",
+    eventDate: process.env.NEXT_PUBLIC_EVENT_DATE || "THURSDAY, 23 APRIL 2026 ",
     groom: process.env.NEXT_PUBLIC_GROOM_NAME || "Default Groom",
     groomNickName: process.env.NEXT_PUBLIC_GROOM_NICKNAME || "Default Nickname",
     groomInstagram: process.env.NEXT_PUBLIC_GROOM_INSTAGRAM || "Default Instagram",
