@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { IoIosArrowUp } from "react-icons/io";
+import { useState, useEffect, useRef } from "react";import { IoIosArrowUp } from "react-icons/io";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import Link from "next/link";
 import { useInView } from "react-intersection-observer";
@@ -34,8 +33,11 @@ const WeddingScreen = ({ name }: Props) => {
 
   const handleOpen = () => {
     setIsOpen(true);
+    // Autoplay music immediately on user gesture (tap = allowed by browsers)
     if (audioRef.current) {
-      audioRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
+      audioRef.current.play()
+        .then(() => setIsPlaying(true))
+        .catch(() => setIsPlaying(false));
     }
   };
 
