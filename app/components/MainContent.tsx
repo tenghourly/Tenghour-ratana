@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { IoIosArrowUp } from "react-icons/io";
-import { FaInstagram } from "react-icons/fa";
 import Link from "next/link";
 import { useInView } from "react-intersection-observer";
 import CountdownTimer from "./Countdown";
@@ -365,10 +364,18 @@ const WeddingScreen = ({ name }: WeddingScreenProps) => {
                   <h1 className="text-xl md:text-3xl font-ovo">{config.groom}</h1>
                   <h3 className="font-thesignature text-2xl text-white/80 mt-1">About {config.groomNickName},</h3>
                   <p className="text-sm mt-4 font-legan text-white/70">{config.groomBio}</p>
-                  <Link href={`https://www.instagram.com/${config.groomInstagram}`} target="_blank"
-                    className="cursor-pointer text-sm rounded-full flex items-center gap-x-2 font-legan mt-5 bg-white/10 backdrop-blur-sm border border-white/20 w-fit px-4 py-2 text-white/80 hover:border-[#D4AF37] transition-all">
-                    <FaInstagram /> {config.groomInstagram}
-                  </Link>
+                  {/* Parents */}
+                  <div className="mt-4 border-t border-white/10 pt-3 space-y-1">
+                    <p className="font-legan text-xs text-white/40 uppercase tracking-[2px]">បុត្រ · Son of</p>
+                    <p className="font-battambang text-sm text-white/80">{config.groomFather}</p>
+                    <p className="font-battambang text-sm text-white/80">{config.groomMother}</p>
+                  </div>
+                  {config.groomInstagram ? (
+                    <a href={`https://www.instagram.com/${config.groomInstagram}`} target="_blank" rel="noreferrer"
+                      className="cursor-pointer text-sm rounded-full flex items-center gap-x-2 font-legan mt-4 bg-white/10 backdrop-blur-sm border border-white/20 w-fit px-4 py-2 text-white/80 hover:border-[#D4AF37] transition-all">
+                      @{config.groomInstagram}
+                    </a>
+                  ) : null}
                 </div>
               </div>
             </GoldSlide>
@@ -381,67 +388,159 @@ const WeddingScreen = ({ name }: WeddingScreenProps) => {
                   <h1 className="text-xl md:text-3xl font-ovo">{config.bride}</h1>
                   <h3 className="font-thesignature text-2xl text-white/80 mt-1">About {config.brideNickName},</h3>
                   <p className="text-sm mt-4 font-legan text-white/70">{config.brideBio}</p>
-                  <Link href={`https://www.instagram.com/${config.brideInstagram}`} target="_blank"
-                    className="cursor-pointer text-sm rounded-full flex items-center gap-x-2 font-legan mt-5 bg-white/10 backdrop-blur-sm border border-white/20 w-fit px-4 py-2 text-white/80 hover:border-[#D4AF37] transition-all">
-                    <FaInstagram /> {config.brideInstagram}
-                  </Link>
+                  {/* Parents */}
+                  <div className="mt-4 border-t border-white/10 pt-3 space-y-1">
+                    <p className="font-legan text-xs text-white/40 uppercase tracking-[2px]">បុត្រី · Daughter of</p>
+                    {config.brideFather ? <p className="font-battambang text-sm text-white/80">{config.brideFather}</p> : null}
+                    <p className="font-battambang text-sm text-white/80">{config.brideMother}</p>
+                  </div>
+                  {config.brideInstagram ? (
+                    <a href={`https://www.instagram.com/${config.brideInstagram}`} target="_blank" rel="noreferrer"
+                      className="cursor-pointer text-sm rounded-full flex items-center gap-x-2 font-legan mt-4 bg-white/10 backdrop-blur-sm border border-white/20 w-fit px-4 py-2 text-white/80 hover:border-[#D4AF37] transition-all">
+                      @{config.brideInstagram}
+                    </a>
+                  ) : null}
                 </div>
               </div>
             </GoldSlide>
 
-            {/* ── Slide 4 — Journey ── */}
+            {/* ── Slide 4 — Wedding Agenda ── */}
             <GoldSlide bg="/slide_4.jpg">
-              <div className="pt-10 px-10 h-full flex flex-col justify-center">
-                <h1 ref={slide4Ref} className={`text-xl md:text-4xl font-ovo fadeInMove ${isSlide4InView ? "active" : ""}`}>
-                  A journey in love
-                </h1>
-                <div ref={slide4Ref} className={`mt-6 fadeInMoveSlow ${isSlide4InView ? "active" : ""}`}>
-                  <p className="font-legan text-xs tracking-[3px] text-white/50 uppercase mb-2">The Groom</p>
-                  <h2 className="font-ovo text-lg text-white">{config.groom}</h2>
-                  <p className="text-xs font-legan text-white/70 mt-2">{config.groomBio}</p>
-                </div>
-                <div ref={slide4Ref} className={`mt-6 fadeInMoveSlow ${isSlide4InView ? "active" : ""}`}>
-                  <p className="font-legan text-xs tracking-[3px] text-white/50 uppercase mb-2">The Bride</p>
-                  <h2 className="font-ovo text-lg text-white">{config.bride}</h2>
-                  <p className="text-xs font-legan text-white/70 mt-2">{config.brideBio}</p>
-                </div>
-                <div ref={slide4Ref} className={`relative flex items-center mt-8 fadeInLeft ${isSlide4InView ? "active" : ""}`}>
-                  <hr className="w-[100px] mx-2 border-t border-[#D4AF37]/40" />
-                  <span className="px-2 font-thesignature text-3xl text-white/80">{config.coupleNames}</span>
+              <div className="h-full overflow-y-auto px-8 pt-10 pb-8">
+                <div ref={slide4Ref} className={`fadeInMove ${isSlide4InView ? "active" : ""}`}>
+
+                  {/* Header */}
+                  <div className="text-center mb-6">
+                    <p className="font-legan text-[10px] tracking-[4px] text-white/40 uppercase mb-1">Program</p>
+                    <h1 className="font-ovo text-xl text-white tracking-wide">កម្មវិធី · Agenda</h1>
+                    <div className="mx-auto mt-2 w-16 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent" />
+                  </div>
+
+                  {/* Day 1 */}
+                  <div className="mb-6">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="h-[1px] flex-1 bg-[#D4AF37]/25" />
+                      <div className="text-center">
+                        <p className="font-battambang text-xs text-[#D4AF37]">{config.timeline.day1.dateKhmer}</p>
+                        <p className="font-legan text-[10px] text-white/40 tracking-widest uppercase">{config.timeline.day1.date}</p>
+                      </div>
+                      <div className="h-[1px] flex-1 bg-[#D4AF37]/25" />
+                    </div>
+                    <div className="space-y-2">
+                      {config.timeline.day1.events.map((e, i) => (
+                        <div key={i} className="flex items-start gap-3">
+                          <div className="flex-shrink-0 mt-[5px]">
+                            <div style={{ width: 5, height: 5, background: "#D4AF37", transform: "rotate(45deg)" }} />
+                          </div>
+                          <div className="flex-1 flex justify-between items-start border-b border-white/5 pb-2">
+                            <p className="font-battambang text-sm text-white/90">{e.title}</p>
+                            <p className="font-legan text-[10px] text-white/35 text-right ml-2 whitespace-nowrap">{e.time}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Day 2 */}
+                  <div>
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="h-[1px] flex-1 bg-[#D4AF37]/25" />
+                      <div className="text-center">
+                        <p className="font-battambang text-xs text-[#D4AF37]">{config.timeline.day2.dateKhmer}</p>
+                        <p className="font-legan text-[10px] text-white/40 tracking-widest uppercase">{config.timeline.day2.date}</p>
+                      </div>
+                      <div className="h-[1px] flex-1 bg-[#D4AF37]/25" />
+                    </div>
+
+                    {/* Morning */}
+                    <p className="font-legan text-[9px] tracking-[3px] text-white/30 uppercase mb-2 ml-2">Morning</p>
+                    <div className="space-y-2 mb-4">
+                      {config.timeline.day2.morning.map((e, i) => (
+                        <div key={i} className="flex items-start gap-3">
+                          <div className="flex-shrink-0 mt-[5px]">
+                            <div style={{ width: 5, height: 5, background: "#D4AF37", transform: "rotate(45deg)" }} />
+                          </div>
+                          <div className="flex-1 flex justify-between items-start border-b border-white/5 pb-2">
+                            <p className="font-battambang text-sm text-white/90">{e.title}</p>
+                            <p className="font-legan text-[10px] text-white/35 text-right ml-2 whitespace-nowrap">{e.time}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Evening */}
+                    <p className="font-legan text-[9px] tracking-[3px] text-white/30 uppercase mb-2 ml-2">Evening</p>
+                    <div className="space-y-2">
+                      {config.timeline.day2.evening.map((e, i) => (
+                        <div key={i} className="flex items-start gap-3">
+                          <div className="flex-shrink-0 mt-[5px]">
+                            <div style={{ width: 5, height: 5, background: "#D4AF37", transform: "rotate(45deg)" }} />
+                          </div>
+                          <div className="flex-1 flex justify-between items-start border-b border-white/5 pb-2">
+                            <p className="font-battambang text-sm text-white/90">{e.title}</p>
+                            <p className="font-legan text-[10px] text-white/35 text-right ml-2 whitespace-nowrap">{e.time}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Footer signature */}
+                  <div className="flex items-center justify-center mt-6 gap-3">
+                    <div className="h-[1px] w-10 bg-[#D4AF37]/30" />
+                    <span className="font-thesignature text-xl text-white/50">{config.coupleNames}</span>
+                    <div className="h-[1px] w-10 bg-[#D4AF37]/30" />
+                  </div>
+
                 </div>
               </div>
             </GoldSlide>
 
             {/* ── Slide 5 — Save the Date ── */}
             <GoldSlide bg="/slide_5.jpg">
-              <div className="flex flex-col items-center h-full overflow-y-auto pt-12 px-8">
-                <div ref={slide5Ref} className={`fadeInMove ${isSlide5InView ? "active" : ""} flex items-center flex-col pt-16`}>
-                  <h3 className="uppercase font-legan text-xs tracking-[4px] text-white/60 mb-3">save our date</h3>
-                  <h1 className="text-2xl w-[220px] text-center font-ovo uppercase shimmer">
+              <div className="flex flex-col items-center justify-center h-full px-8">
+                <div ref={slide5Ref} className={`fadeInMove ${isSlide5InView ? "active" : ""} flex items-center flex-col w-full`}>
+
+                  <p className="uppercase font-legan text-[10px] tracking-[5px] text-white/50 mb-4">Save Our Date</p>
+
+                  <h1 className="text-2xl text-center font-ovo uppercase shimmer leading-snug">
                     {new Date(config.eventDate).toLocaleDateString("en-US", { weekday: "long" })}
                     <br />
                     {new Date(config.eventDate).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
                   </h1>
-                  {config.holyMatrimony.enabled && (
-                    <div className="mt-6 flex flex-col items-center">
-                      <h3 className="uppercase font-ovo text-sm text-center mb-2">Holy Matrimony<br/>{config.holyMatrimony.time}</h3>
-                      <p className="text-sm text-center font-legan text-white/70">{config.holyMatrimony.place}<br/>{config.holyMatrimony.place_details}</p>
-                      <Link href={config.holyMatrimony.googleMapsLink} target="_blank"
-                        className="mt-4 text-sm rounded-full font-legan bg-white/10 backdrop-blur-sm border border-white/20 px-5 py-2 text-white hover:border-[#D4AF37] transition-all">
-                        Google Maps
-                      </Link>
-                    </div>
-                  )}
-                  {config.weddingReception.enabled && (
-                    <div className="mt-6 flex flex-col items-center">
-                      <h3 className="uppercase font-ovo text-sm text-center mb-2">Wedding Reception<br/>{config.weddingReception.time}</h3>
-                      <p className="text-sm text-center font-legan text-white/70">{config.weddingReception.place}<br/>{config.weddingReception.place_details}</p>
-                      <Link href={config.weddingReception.googleMapsLink} target="_blank"
-                        className="mt-4 text-sm rounded-full font-legan bg-white/10 backdrop-blur-sm border border-white/20 px-5 py-2 text-white hover:border-[#D4AF37] transition-all">
-                        Google Maps
-                      </Link>
-                    </div>
-                  )}
+
+                  {/* Divider */}
+                  <div className="my-6 w-full flex items-center gap-3">
+                    <div className="h-[1px] flex-1 bg-[#D4AF37]/25" />
+                    <div style={{ width: 5, height: 5, background: "#D4AF37", transform: "rotate(45deg)" }} />
+                    <div className="h-[1px] flex-1 bg-[#D4AF37]/25" />
+                  </div>
+
+                  {/* QR Code */}
+                  <div className="p-2 bg-white rounded-sm mb-4">
+                    <img
+                      src={`https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=${encodeURIComponent(config.weddingReception.googleMapsLink)}`}
+                      alt="Google Maps QR"
+                      width={130}
+                      height={130}
+                      style={{ display: "block" }}
+                    />
+                  </div>
+
+                  {/* Address */}
+                  <p className="font-battambang text-xs text-white/60 text-center leading-relaxed">
+                    {config.weddingReception.place_details}
+                  </p>
+
+                  {/* Tap to open maps hint */}
+                  <Link
+                    href={config.weddingReception.googleMapsLink}
+                    target="_blank"
+                    className="mt-4 font-legan text-[10px] tracking-widest uppercase text-[#D4AF37]/60 hover:text-[#D4AF37] transition-all"
+                  >
+                    Open in Google Maps ↗
+                  </Link>
+
                 </div>
               </div>
             </GoldSlide>
