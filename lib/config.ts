@@ -1,7 +1,7 @@
 export const config = {
   coupleNames: "Ly Tenghour & Da Muniratana",
   coupleNamesKhmer: "លី តេងហួ & ដា មន្នីរតនា",
-  eventDate: "THURSDAY, 23 APRIL 2026",
+  eventDate: "2026-04-23T17:00:00",
 
   // ── GROOM ──
   groom: "Ly Tenghour",
