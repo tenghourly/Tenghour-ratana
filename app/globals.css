@@ -4,92 +4,104 @@
 
 :root {
   --background: #0a0a0a;
-  --foreground: #ffffff;
+  --foreground: #ededed;
   --font-ovo: 'Ovo', serif;
   --font-legan: 'Legan', serif;
   --font-wonder: 'Wonder', sans-serif;
   --font-thesignature: 'Thesignature', sans-serif;
-  --font-battambang: 'Battambang', serif;
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background: #0a0a0a;
   font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
 }
 
 @layer utilities {
   .text-balance { text-wrap: balance; }
-  .font-battambang { font-family: var(--font-battambang); }
 }
 
-/* ── Shimmer gold text effect ── */
-.shimmer {
-  background: linear-gradient(
-    90deg,
-    rgba(255,255,255,0.85) 0%,
-    rgba(255,215,0,0.95)   40%,
-    rgba(255,255,255,0.85) 60%,
-    rgba(255,215,0,0.7)    100%
-  );
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: shimmerMove 3.5s linear infinite;
-}
-@keyframes shimmerMove {
-  0%   { background-position: 200% center; }
-  100% { background-position: -200% center; }
-}
-
-/* ── Staggered word entrance ── */
-.word-fade > * {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
-}
-.word-fade.active > *:nth-child(1) { opacity:1; transform:none; transition-delay: 0.0s; }
-.word-fade.active > *:nth-child(2) { opacity:1; transform:none; transition-delay: 0.15s; }
-.word-fade.active > *:nth-child(3) { opacity:1; transform:none; transition-delay: 0.30s; }
-.word-fade.active > *:nth-child(4) { opacity:1; transform:none; transition-delay: 0.45s; }
-.word-fade.active > *:nth-child(5) { opacity:1; transform:none; transition-delay: 0.60s; }
-
-/* ── Scrollbar hide ── */
-.overflow-y-scroll::-webkit-scrollbar { display: none; }
-.overflow-y-scroll { -ms-overflow-style: none; scrollbar-width: none; }
-
-/* ── Cover background slideshow ── */
+/* ── Cover background — animated slideshow ── */
 #backgroundWedding {
   background-size: cover;
   background-position: center;
   background-image: url(../public/foto_2.jpg);
   background-repeat: no-repeat;
-  animation-name: animate;
-  animation-direction: alternate-reverse;
-  animation-play-state: running;
-  animation-timing-function: ease-in-out;
-  animation-duration: 12s;
-  animation-fill-mode: forwards;
-  animation-iteration-count: infinite;
+  animation: coverSlideshow 14s ease-in-out infinite alternate;
   background-color: #0a0a0a;
 }
-
-@keyframes animate {
+@keyframes coverSlideshow {
   0%   { background-image: url(../public/foto_2.jpg); }
   45%  { background-image: url(../public/foto_4.jpg); }
   85%  { background-image: url(../public/foto_1.jpg); }
   100% { background-image: url(../public/foto_2.jpg); }
 }
 
-/* ── Entrance animations ── */
+/* ── Ken Burns — slow cinematic zoom/pan on slide backgrounds ── */
+@keyframes kenBurns1 {
+  0%   { transform: scale(1)    translateX(0%)    translateY(0%); }
+  100% { transform: scale(1.08) translateX(-2%)   translateY(-1%); }
+}
+@keyframes kenBurns2 {
+  0%   { transform: scale(1.06) translateX(-1%)   translateY(0%); }
+  100% { transform: scale(1)    translateX(1%)    translateY(-2%); }
+}
+@keyframes kenBurns3 {
+  0%   { transform: scale(1)    translateX(1%)    translateY(-1%); }
+  100% { transform: scale(1.07) translateX(-1%)   translateY(1%); }
+}
+.kenburns {
+  animation: kenBurns1 18s ease-in-out infinite alternate;
+  will-change: transform;
+}
+/* Each GoldSlide gets a slightly different burn pattern via nth-child */
+.snap-start:nth-child(odd)  .kenburns { animation-name: kenBurns2; animation-duration: 20s; }
+.snap-start:nth-child(even) .kenburns { animation-name: kenBurns3; animation-duration: 16s; }
+
+/* ── Bokeh floating circles ── */
+@keyframes bokehFloat {
+  0%   { transform: translate(0, 0)    scale(1); }
+  33%  { transform: translate(8px, -12px) scale(1.05); }
+  66%  { transform: translate(-6px, 8px)  scale(0.95); }
+  100% { transform: translate(4px, -4px)  scale(1.02); }
+}
+
+/* ── Gold shimmer text ── */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.9)  0%,
+    rgba(212,175,55,1)    35%,
+    rgba(255,215,0,1)     50%,
+    rgba(212,175,55,1)    65%,
+    rgba(255,255,255,0.9) 100%
+  );
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmerMove 4s linear infinite;
+}
+@keyframes shimmerMove {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+/* ── Scroll snap smooth fade transition ── */
+.snap-start {
+  scroll-snap-align: start;
+  transition: opacity 0.6s ease-in-out;
+}
+
+/* ── Existing entrance animations ── */
 .fadeMain {
   opacity: 0;
   transition: opacity 3s ease-in;
 }
 .fadeMain2 {
   opacity: 0;
-  transition: opacity 1s ease-out;
+  transition: opacity 0.8s ease-out;
 }
 .fadeInMove {
   opacity: 0;
@@ -111,13 +123,18 @@ body {
   transform: translateX(-50px);
   transition: opacity 2.5s ease-out, transform 2.5s ease-out;
 }
-.fadeInScale {
-  opacity: 0;
-  transform: scale(0.95);
-  transition: opacity 1.8s ease-out, transform 1.8s ease-out;
-}
-
 .active {
   opacity: 1 !important;
-  transform: translateY(0) translateX(0) scale(1) !important;
+  transform: translateY(0) translateX(0) !important;
 }
+
+/* ── Arrow bounce ── */
+@keyframes upDown {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+.animate-upDown { animation: upDown 1.5s ease-in-out infinite; }
+
+/* ── Scrollbar hidden ── */
+* { scrollbar-width: none; -ms-overflow-style: none; }
+*::-webkit-scrollbar { display: none; }
