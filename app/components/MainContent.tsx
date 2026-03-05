@@ -8,7 +8,6 @@ import { useInView } from "react-intersection-observer";
 import CountdownTimer from "./Countdown";
 import Form from "./Form";
 import WishesList from "./WishesList";
-import CoupleSprite from "./CoupleSprite";
 import { config } from "@/lib/config";
 
 type Props = { name?: string };
@@ -24,7 +23,6 @@ const Divider = () => (
 const WeddingScreen = ({ name }: Props) => {
   const [fadeClass, setFadeClass] = useState("opacity-0");
   const [isOpen, setIsOpen] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
@@ -34,9 +32,7 @@ const WeddingScreen = ({ name }: Props) => {
 
   const handleOpen = () => {
     setIsOpen(true);
-    if (audioRef.current) {
-      audioRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
-    }
+    if (audioRef.current) audioRef.current.play().catch(() => {});
   };
 
   // All hooks must be at top level — no loops, no helpers
@@ -455,9 +451,6 @@ const WeddingScreen = ({ name }: Props) => {
 
       {/* Audio — replace wedding_song.mp3 in public/music/ folder */}
       <audio ref={audioRef} src="/music/wedding_song.mp3" preload="auto" loop />
-
-      {/* 🎮 Pixel couple sprite — floats over everything */}
-      <CoupleSprite isOpen={isOpen} isPlaying={isPlaying} />
     </div>
   );
 };
