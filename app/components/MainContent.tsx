@@ -8,6 +8,8 @@ import { useInView } from "react-intersection-observer";
 import CountdownTimer from "./Countdown";
 import Form from "./Form";
 import WishesList from "./WishesList";
+import Ambience from "./Ambience";
+import MusicButton from "./MusicButton";
 import { config } from "@/lib/config";
 
 type Props = { name?: string };
@@ -23,6 +25,7 @@ const Divider = () => (
 const WeddingScreen = ({ name }: Props) => {
   const [fadeClass, setFadeClass] = useState("opacity-0");
   const [isOpen, setIsOpen] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
@@ -32,7 +35,19 @@ const WeddingScreen = ({ name }: Props) => {
 
   const handleOpen = () => {
     setIsOpen(true);
-    if (audioRef.current) audioRef.current.play().catch(() => {});
+    if (audioRef.current) {
+      audioRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
+    }
+  };
+
+  const handleToggleMusic = () => {
+    if (!audioRef.current) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      audioRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
+    }
   };
 
   // All hooks must be at top level — no loops, no helpers
@@ -93,7 +108,7 @@ const WeddingScreen = ({ name }: Props) => {
               </p>
               <h1
                 ref={mainRef}
-                className={`text-3xl font-ovo text-white uppercase leading-tight fadeMain ${isMainInView ? "active" : ""}`}
+                className={`text-3xl font-ovo uppercase leading-tight shimmer fadeMain ${isMainInView ? "active" : ""}`}
               >
                 {config.coupleNames}
               </h1>
@@ -449,8 +464,14 @@ const WeddingScreen = ({ name }: Props) => {
         )}
       </div>
 
-      {/* Audio — replace wedding_song.mp3 in public/music/ folder */}
+      {/* Audio */}
       <audio ref={audioRef} src="/music/wedding_song.mp3" preload="auto" loop />
+
+      {/* ── Ambience effects — petals, gold dust, confetti, tap hearts ── */}
+      <Ambience isOpen={isOpen} />
+
+      {/* ── Music toggle button ── */}
+      <MusicButton isPlaying={isPlaying} onToggle={handleToggleMusic} />
     </div>
   );
 };
