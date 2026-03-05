@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 
 const Form = () => {
@@ -8,12 +10,7 @@ const Form = () => {
     setLoading(true);
 
     const form = e.currentTarget;
-    if (!form) {
-      setLoading(false);
-      return;
-    }
-
-    const formData = new FormData(e.currentTarget);
+    const formData = new FormData(form);
     const data = {
       name: formData.get("name"),
       attendance: formData.get("attendance"),
@@ -21,113 +18,108 @@ const Form = () => {
       message: formData.get("message"),
     };
 
-
     if (!data.name || !data.attendance || !data.guests || !data.message) {
-      alert("All fields are required!");
-      setLoading(false); 
+      alert("សូមបំពេញព័ត៌មានទាំងអស់! · All fields are required!");
+      setLoading(false);
       return;
     }
 
     const response = await fetch("/api/submit", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
 
     if (response.ok) {
-      // Reset the form if submission is successful
       form.reset();
-      alert("RSVP submitted successfully!");
+      alert("អរគុណ! ការឆ្លើយតបរបស់អ្នកត្រូវបានទទួល។\nThank you! Your RSVP has been submitted.");
     } else {
-      alert("Failed to submit RSVP");
+      alert("មានបញ្ហា សូមព្យាយាមម្ដងទៀត · Submission failed, please try again.");
     }
 
-    setLoading(false); // Set loading to false after response
+    setLoading(false);
   };
 
+  const inputClass = "block w-full p-3 mt-1 bg-white/10 text-white border border-white/20 rounded-xl text-sm focus:outline-none focus:border-white/50 placeholder-white/30 font-battambang";
+  const labelClass = "block text-sm font-battambang text-white/80 mb-1";
+
   return (
-    <form onSubmit={handleSubmit} className="mt-8 space-y-4">
-      {/* Form fields */}
+    <form onSubmit={handleSubmit} className="mt-5 space-y-4">
+
+      {/* Name */}
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-white">
-          Nama
+        <label htmlFor="name" className={labelClass}>
+          ឈ្មោះ <span className="text-white/40 font-legan text-xs">(Name)</span>
         </label>
         <input
           type="text"
           name="name"
           id="name"
-          className="block w-full p-2 mt-1 bg-white/10 text-white border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          placeholder="បញ្ចូលឈ្មោះរបស់អ្នក..."
+          className={inputClass}
           required
         />
       </div>
 
+      {/* Attendance */}
       <div>
-        <label
-          htmlFor="attendance"
-          className="block text-sm font-medium text-white"
-        >
-          Kehadiran
+        <label htmlFor="attendance" className={labelClass}>
+          ការចូលរួម <span className="text-white/40 font-legan text-xs">(Attendance)</span>
         </label>
         <select
           id="attendance"
           name="attendance"
-          className="block w-full p-2 mt-1 bg-black/40 text-white border border-gray-300 rounded-md shadow-sm  sm:text-sm"
+          className={`${inputClass} bg-black/50`}
           required
         >
-          <option value="">Pilih Kehadiran</option>
-          <option value="Hadir">Hadir</option>
-          <option value="Tidak Hadir">Tidak Hadir</option>
+          <option value="">— សូមជ្រើសរើស —</option>
+          <option value="Hadir">✅ នឹងចូលរួម (Will Attend)</option>
+          <option value="Tidak Hadir">❌ មិនអាចចូលរួម (Cannot Attend)</option>
         </select>
       </div>
 
+      {/* Number of guests */}
       <div>
-        <label
-          htmlFor="guests"
-          className="block text-sm font-medium text-white"
-        >
-          Jumlah Tamu
+        <label htmlFor="guests" className={labelClass}>
+          ចំនួនភ្ញៀវ <span className="text-white/40 font-legan text-xs">(Number of Guests)</span>
         </label>
         <select
           id="guests"
           name="guests"
-          className="block w-full p-2 mt-1  bg-black/40 text-white border border-gray-300 rounded-md shadow-sm  sm:text-sm"
+          className={`${inputClass} bg-black/50`}
           required
         >
-          <option value="">Pilih Jumlah Tamu</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
+          <option value="">— សូមជ្រើសរើស —</option>
+          <option value="1">១ នាក់</option>
+          <option value="2">២ នាក់</option>
+          <option value="3">៣ នាក់</option>
+          <option value="4">៤ នាក់</option>
         </select>
       </div>
 
+      {/* Message */}
       <div>
-        <label
-          htmlFor="message"
-          className="block text-sm font-medium text-white"
-        >
-          Ucapan
+        <label htmlFor="message" className={labelClass}>
+          ពាក្យជូនពរ <span className="text-white/40 font-legan text-xs">(Message / Wishes)</span>
         </label>
         <textarea
           id="message"
           name="message"
-          rows={4}
-          className="block w-full p-2 mt-1 bg-white/10 text-white border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          rows={3}
+          placeholder="សូមសរសេរពាក្យជូនពរ..."
+          className={inputClass}
           required
         />
       </div>
 
-      <div>
-        <button
-          type="submit"
-          className="block w-full p-2 text-sm font-medium text-center text-black bg-white border border-transparent rounded-md shadow-sm"
-          disabled={loading} 
-        >
-          {loading ? "Submitting..." : "Submit"} 
-        </button>
-      </div>
+      {/* Submit button */}
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full py-3 font-battambang text-sm font-bold text-black bg-white rounded-full active:scale-95 transition-transform touch-manipulation disabled:opacity-50"
+      >
+        {loading ? "កំពុងផ្ញើ..." : "ផ្ញើការឆ្លើយតប · Submit"}
+      </button>
     </form>
   );
 };
